@@ -8,11 +8,20 @@ version = "1.0.0"
 dependencies {
     detektPlugins(libs.detekt.formatting)
 
-    implementation(libs.database.h2)
+    implementation(libs.exposed.core)
+    implementation(libs.exposed.crypt)
+    implementation(libs.exposed.pagination)
+
+    implementation(libs.google.phonenumber)
+
+    implementation(libs.koin.ktor)
+    implementation(libs.koin.logger.slf4j)
+    implementation(libs.koin.test)
 
     implementation(libs.kopapi)
 
     implementation(libs.kotlinx.atomicfu)
+    implementation(libs.kotlinx.coroutines)
     implementation(libs.kotlinx.datetime)
     implementation(libs.kotlinx.serialization)
 
@@ -41,17 +50,7 @@ dependencies {
 
     implementation(libs.ktor.config)
 
-    implementation(libs.exposed.core)
-    implementation(libs.exposed.crypt)
-    implementation(libs.exposed.pagination)
-
-    implementation(libs.google.phonenumber)
-
     implementation(libs.logback.classic)
-
-    implementation(libs.koin.ktor)
-    implementation(libs.koin.logger.slf4j)
-    implementation(libs.koin.test)
 
     implementation(libs.micrometer.metrics)
     implementation(libs.micrometer.metrics.prometheus)

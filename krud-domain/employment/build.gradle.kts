@@ -10,16 +10,6 @@ dependencies {
 
     detektPlugins(libs.detekt.formatting)
 
-    implementation(libs.kopapi)
-
-    implementation(libs.kotlinx.datetime)
-    implementation(libs.kotlinx.serialization)
-
-    implementation(libs.ktor.server.auth)
-    implementation(libs.ktor.server.core)
-
-    implementation(libs.ktor.config)
-
     implementation(libs.exposed.core)
     implementation(libs.exposed.kotlin.datetime)
     implementation(libs.exposed.pagination)
@@ -27,6 +17,17 @@ dependencies {
     implementation(libs.koin.ktor)
     implementation(libs.koin.logger.slf4j)
     implementation(libs.koin.test)
+
+    implementation(libs.kopapi)
+
+    implementation(libs.kotlinx.coroutines)
+    implementation(libs.kotlinx.datetime)
+    implementation(libs.kotlinx.serialization)
+
+    implementation(libs.ktor.server.auth)
+    implementation(libs.ktor.server.core)
+
+    implementation(libs.ktor.config)
 
     implementation(libs.shared.commons.codec)
 

@@ -15,6 +15,7 @@ koin = "4.0.0"
 kopapi = "1.0.9"
 kotlin = "2.1.0"
 kotlinx-atomicfu = "0.26.1"
+kotlinx-coroutines = "1.10.0"
 kotlinx-datetime = "0.6.1"
 kotlinx-serialization = "1.7.3"
 ktor = "3.0.3"
@@ -115,6 +116,11 @@ kopapi = { module = "io.github.perracodex:kopapi", version.ref = "kopapi" }
 # https://github.com/Kotlin/kotlinx-atomicfu/releases
 # https://github.com/Kotlin/kotlinx-atomicfu
 kotlinx-atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "kotlinx-atomicfu" }
+
+# Coroutines.
+# https://github.com/Kotlin/kotlinx.coroutines/releases
+# https://github.com/Kotlin/kotlinx.coroutines
+kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 
 # Serializable DateTime.
 # https://github.com/Kotlin/kotlinx-datetime/releases
