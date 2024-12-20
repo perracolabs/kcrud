@@ -23,8 +23,6 @@ dependencies {
 
     implementation(libs.kotlinx.coroutines)
 
-    implementation(libs.ktor.config)
-
     implementation(libs.micrometer.metrics)
     implementation(libs.micrometer.metrics.prometheus)
 

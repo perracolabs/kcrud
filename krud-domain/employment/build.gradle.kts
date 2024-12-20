@@ -26,8 +26,6 @@ dependencies {
     implementation(libs.ktor.server.auth)
     implementation(libs.ktor.server.core)
 
-    implementation(libs.ktor.config)
-
     implementation(libs.shared.commons.codec)
 
     implementation(libs.test.kotlin.junit)
