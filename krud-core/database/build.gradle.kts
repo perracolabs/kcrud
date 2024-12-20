@@ -10,6 +10,8 @@ dependencies {
 
     detektPlugins(libs.detekt.formatting)
 
+    implementation(libs.database.h2)
+
     implementation(libs.exposed.core)
     implementation(libs.exposed.crypt)
     implementation(libs.exposed.jdbc)
@@ -17,10 +19,7 @@ dependencies {
     implementation(libs.exposed.kotlin.datetime)
     implementation(libs.exposed.pagination)
     implementation(libs.flyway.core)
-
     implementation(libs.hikariCP)
-
-    implementation(libs.database.h2)
 
     implementation(libs.kotlinx.coroutines)
 
