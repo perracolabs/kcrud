@@ -33,14 +33,14 @@ public abstract class BaseTable(private val name: String) : TimestampedTable(nam
     /**
      * Reference to actor who last modified the record.
      */
-    public val modifiedBy: Column<Uuid> = kotlinUuid(
-        name = "modified_by"
+    public val updatedBy: Column<Uuid> = kotlinUuid(
+        name = "updated_by"
     ).references(
         ref = ActorTable.id,
         onDelete = ReferenceOption.CASCADE,
         onUpdate = ReferenceOption.RESTRICT,
-        fkName = "fk_${name}__modified_by"
+        fkName = "fk_${name}__updated_by"
     ).index(
-        customIndexName = "ix_${name}__modified_by"
+        customIndexName = "ix_${name}__updated_by"
     )
 }

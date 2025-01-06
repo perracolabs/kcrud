@@ -245,7 +245,7 @@ internal class EmployeeRepository(
         this[EmployeeTable.dob] = request.dob
         this[EmployeeTable.maritalStatus] = request.maritalStatus
         this[EmployeeTable.honorific] = request.honorific
-        this[EmployeeTable.modifiedBy] = sessionContext.actorId
+        this[EmployeeTable.updatedBy] = sessionContext.actorId
     }
 
     /**

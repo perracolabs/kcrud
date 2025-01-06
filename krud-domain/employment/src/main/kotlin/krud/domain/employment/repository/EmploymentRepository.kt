@@ -136,7 +136,7 @@ internal class EmploymentRepository(
         this[EmploymentTable.startDate] = request.period.startDate
         this[EmploymentTable.endDate] = request.period.endDate
         this[EmploymentTable.comments] = request.period.comments?.trim()
-        this[EmploymentTable.modifiedBy] = sessionContext.actorId
+        this[EmploymentTable.updatedBy] = sessionContext.actorId
     }
 
     /**

@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS employee (
     marital_status VARCHAR(64) NOT NULL,
     honorific_id INTEGER NOT NULL,
     created_by UUID NOT NULL,
-    modified_by UUID NOT NULL,
+    updated_by UUID NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
@@ -25,8 +25,8 @@ CREATE TABLE IF NOT EXISTS employee (
         ON DELETE CASCADE
         ON UPDATE RESTRICT,
 
-    CONSTRAINT fk_employee__modified_by
-        FOREIGN KEY (modified_by) REFERENCES actor(actor_id)
+    CONSTRAINT fk_employee__updated_by
+        FOREIGN KEY (updated_by) REFERENCES actor(actor_id)
         ON DELETE CASCADE
         ON UPDATE RESTRICT,
 
@@ -37,8 +37,8 @@ CREATE TABLE IF NOT EXISTS employee (
 CREATE INDEX IF NOT EXISTS ix_employee__created_by
     ON employee (created_by);
 
-CREATE INDEX IF NOT EXISTS ix_employee__modified_by
-    ON employee (modified_by);
+CREATE INDEX IF NOT EXISTS ix_employee__updated_by
+    ON employee (updated_by);
 
 CREATE INDEX IF NOT EXISTS ix_employee__first_name
     ON employee (first_name);
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS contact (
     email VARCHAR(256) NOT NULL,
     phone VARCHAR(128) NOT NULL,
     created_by UUID NOT NULL,
-    modified_by UUID NOT NULL,
+    updated_by UUID NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
@@ -71,8 +71,8 @@ CREATE TABLE IF NOT EXISTS contact (
         ON DELETE CASCADE
         ON UPDATE RESTRICT,
 
-    CONSTRAINT fk_contact__modified_by
-        FOREIGN KEY (modified_by) REFERENCES actor(actor_id)
+    CONSTRAINT fk_contact__updated_by
+        FOREIGN KEY (updated_by) REFERENCES actor(actor_id)
         ON DELETE CASCADE
         ON UPDATE RESTRICT,
 
@@ -88,8 +88,8 @@ CREATE TABLE IF NOT EXISTS contact (
 CREATE INDEX IF NOT EXISTS ix_contact__created_by
     ON contact (created_by);
 
-CREATE INDEX IF NOT EXISTS ix_contact__modified_by
-    ON contact (modified_by);
+CREATE INDEX IF NOT EXISTS ix_contact__updated_by
+    ON contact (updated_by);
 
 CREATE INDEX IF NOT EXISTS ix_contact__employee_id
     ON contact (employee_id);

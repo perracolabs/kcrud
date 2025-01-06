@@ -136,7 +136,7 @@ internal class ContactRepository(
         this[ContactTable.employeeId] = employeeId
         this[ContactTable.email] = request.email.trim()
         this[ContactTable.phone] = request.phone.trim()
-        this[ContactTable.modifiedBy] = sessionContext.actorId
+        this[ContactTable.updatedBy] = sessionContext.actorId
     }
 
     /**

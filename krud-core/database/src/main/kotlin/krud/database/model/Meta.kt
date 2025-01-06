@@ -15,17 +15,17 @@ import org.jetbrains.exposed.sql.ResultRow
 /**
  * Represents the metadata of a record.
  *
- * @property createdBy The actor who created the record.
- * @property modifiedBy The actor who last modified the record.
  * @property createdAt The timestamp when the record was created, in UTC.
+ * @property createdBy The actor who created the record.
  * @property updatedAt The timestamp when the record was last updated, in UTC.
+ * @property updatedBy The actor who last modified the record.
  */
 @Serializable
 public data class Meta(
-    val createdBy: Uuid? = null,
-    val modifiedBy: Uuid? = null,
     val createdAt: Instant,
-    val updatedAt: Instant
+    val createdBy: Uuid? = null,
+    val updatedAt: Instant,
+    val updatedBy: Uuid? = null
 ) {
     public companion object {
         /**
@@ -56,7 +56,7 @@ public data class Meta(
         public fun from(row: ResultRow, table: BaseTable): Meta {
             return Meta(
                 createdBy = row[table.createdBy],
-                modifiedBy = row[table.modifiedBy],
+                updatedBy = row[table.updatedBy],
                 createdAt = row[table.createdAt].toInstant().toKotlinInstant(),
                 updatedAt = row[table.updatedAt].toInstant().toKotlinInstant()
             )
