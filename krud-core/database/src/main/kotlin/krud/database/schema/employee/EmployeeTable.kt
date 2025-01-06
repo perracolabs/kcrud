@@ -10,7 +10,7 @@ import krud.database.column.autoGenerate
 import krud.database.column.enumerationById
 import krud.database.column.kotlinUuid
 import krud.database.column.validVarchar
-import krud.database.schema.base.TimestampedTable
+import krud.database.schema.base.BaseTable
 import krud.database.schema.employee.type.Honorific
 import krud.database.schema.employee.type.MaritalStatus
 import org.jetbrains.exposed.sql.Column
@@ -20,7 +20,7 @@ import kotlin.uuid.Uuid
 /**
  * Database table definition for employees.
  */
-public object EmployeeTable : TimestampedTable(name = "employee") {
+public object EmployeeTable : BaseTable(name = "employee") {
     /**
      * The unique id of the employee record.
      */

@@ -179,7 +179,7 @@ internal class EmployeeRepository(
     override fun create(request: EmployeeRequest): Employee {
         return transaction(sessionContext = sessionContext) {
             EmployeeTable.insert { statement ->
-                statement.toStatement(request = request)
+                statement.toInsertStatement(request = request)
             }[EmployeeTable.id].let { employeeId ->
                 request.contact?.let { contactRequest ->
                     contactRepository.create(
@@ -202,7 +202,7 @@ internal class EmployeeRepository(
                     EmployeeTable.id eq employeeId
                 }
             ) { statement ->
-                statement.toStatement(request = request)
+                statement.toUpdateStatement(request = request)
             }.takeIf { it > 0 }?.let {
                 contactRepository.syncWithEmployee(
                     employeeId = employeeId,
@@ -236,14 +236,24 @@ internal class EmployeeRepository(
 
     /**
      * Populates an SQL [UpdateBuilder] with data from an [EmployeeRequest] instance,
-     * so that it can be used to update or create a database record.
+     * without assigning the `createdBy` field. This is suitable for updates.
      */
-    private fun UpdateBuilder<Int>.toStatement(request: EmployeeRequest) {
+    private fun UpdateBuilder<Int>.toUpdateStatement(request: EmployeeRequest) {
         this[EmployeeTable.firstName] = request.firstName.trim()
         this[EmployeeTable.lastName] = request.lastName.trim()
         this[EmployeeTable.workEmail] = request.workEmail.trim()
         this[EmployeeTable.dob] = request.dob
         this[EmployeeTable.maritalStatus] = request.maritalStatus
         this[EmployeeTable.honorific] = request.honorific
+        this[EmployeeTable.modifiedBy] = sessionContext.actorId
+    }
+
+    /**
+     * Populates an SQL [UpdateBuilder] with data from a [EmployeeRequest] instance,
+     * including the `createdBy` field. This is suitable for inserts.
+     */
+    private fun UpdateBuilder<Int>.toInsertStatement(request: EmployeeRequest) {
+        toUpdateStatement(request = request)
+        this[EmployeeTable.createdBy] = sessionContext.actorId
     }
 }

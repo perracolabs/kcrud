@@ -79,7 +79,7 @@ internal class ContactRepository(
     override fun create(employeeId: Uuid, request: ContactRequest): Uuid {
         return transaction(sessionContext = sessionContext) {
             ContactTable.insert { statement ->
-                statement.toStatement(
+                statement.toInsertStatement(
                     employeeId = employeeId,
                     request = request
                 )
@@ -94,7 +94,7 @@ internal class ContactRepository(
                     ContactTable.id eq contactId
                 }
             ) { statement ->
-                statement.toStatement(
+                statement.toUpdateStatement(
                     employeeId = employeeId,
                     request = request
                 )
@@ -130,11 +130,21 @@ internal class ContactRepository(
 
     /**
      * Populates an SQL [UpdateBuilder] with data from a [ContactRequest] instance,
-     * so that it can be used to update or create a database record.
+     * without assigning the `createdBy` field. This is suitable for updates.
      */
-    private fun UpdateBuilder<Int>.toStatement(employeeId: Uuid, request: ContactRequest) {
+    private fun UpdateBuilder<Int>.toUpdateStatement(employeeId: Uuid, request: ContactRequest) {
         this[ContactTable.employeeId] = employeeId
         this[ContactTable.email] = request.email.trim()
         this[ContactTable.phone] = request.phone.trim()
+        this[ContactTable.modifiedBy] = sessionContext.actorId
+    }
+
+    /**
+     * Populates an SQL [UpdateBuilder] with data from a [ContactRequest] instance,
+     * including the `createdBy` field. This is suitable for inserts.
+     */
+    private fun UpdateBuilder<Int>.toInsertStatement(employeeId: Uuid, request: ContactRequest) {
+        toUpdateStatement(employeeId = employeeId, request = request)
+        this[ContactTable.createdBy] = sessionContext.actorId
     }
 }

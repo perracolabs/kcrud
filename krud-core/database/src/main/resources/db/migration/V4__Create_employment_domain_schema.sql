@@ -18,8 +18,20 @@ CREATE TABLE IF NOT EXISTS employment (
     start_date DATE NOT NULL,
     end_date DATE NULL,
     comments VARCHAR(512) NULL,
+    created_by UUID NOT NULL,
+    modified_by UUID NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_employment__created_by
+        FOREIGN KEY (created_by) REFERENCES actor(actor_id)
+        ON DELETE CASCADE
+        ON UPDATE RESTRICT,
+
+    CONSTRAINT fk_employment__modified_by
+        FOREIGN KEY (modified_by) REFERENCES actor(actor_id)
+        ON DELETE CASCADE
+        ON UPDATE RESTRICT,
 
     CONSTRAINT pk_employment_id
         PRIMARY KEY (employment_id),
@@ -29,6 +41,12 @@ CREATE TABLE IF NOT EXISTS employment (
         ON DELETE CASCADE
         ON UPDATE RESTRICT
 );
+
+CREATE INDEX IF NOT EXISTS ix_employment__created_by
+    ON employment (created_by);
+
+CREATE INDEX IF NOT EXISTS ix_employment__modified_by
+    ON employment (modified_by);
 
 CREATE INDEX IF NOT EXISTS ix_employment__employee_id
     ON employment (employee_id);
