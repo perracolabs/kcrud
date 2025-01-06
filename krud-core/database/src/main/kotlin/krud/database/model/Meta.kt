@@ -55,10 +55,10 @@ public data class Meta(
          */
         public fun from(row: ResultRow, table: BaseTable): Meta {
             return Meta(
-                createdBy = row[table.createdBy],
-                updatedBy = row[table.updatedBy],
                 createdAt = row[table.createdAt].toInstant().toKotlinInstant(),
-                updatedAt = row[table.updatedAt].toInstant().toKotlinInstant()
+                createdBy = row[table.createdBy],
+                updatedAt = row[table.updatedAt].toInstant().toKotlinInstant(),
+                updatedBy = row[table.updatedBy]
             )
         }
     }
