@@ -9,7 +9,7 @@ import krud.base.error.validator.PhoneValidator
 import krud.database.column.autoGenerate
 import krud.database.column.kotlinUuid
 import krud.database.column.validVarchar
-import krud.database.schema.base.TimestampedTable
+import krud.database.schema.base.BaseTable
 import krud.database.schema.employee.EmployeeTable
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.ReferenceOption
@@ -19,7 +19,7 @@ import kotlin.uuid.Uuid
  * Database table definition for employee contact details.
  * Demonstrates custom columns validators (see email and phone).
  */
-public object ContactTable : TimestampedTable(name = "contact") {
+public object ContactTable : BaseTable(name = "contact") {
     /**
      * The unique id of the contact record.
      */

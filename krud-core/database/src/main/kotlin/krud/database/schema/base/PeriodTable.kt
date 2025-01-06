@@ -14,7 +14,7 @@ import org.jetbrains.exposed.sql.kotlin.datetime.date
  * of periods associated with various entries.
  * This structure supports applications needing to capture historical data or manage ongoing events.
  */
-public abstract class PeriodTable(name: String) : TimestampedTable(name = name) {
+public abstract class PeriodTable(name: String) : BaseTable(name = name) {
 
     /** Whether the period is currently active. */
     public val isActive: Column<Boolean> = bool(

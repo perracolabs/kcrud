@@ -11,7 +11,7 @@ import org.jetbrains.exposed.sql.kotlin.datetime.timestampWithTimeZone
 import java.time.OffsetDateTime
 
 /**
- * Base class for database tables that automatically track the creation and last update timestamps of records.
+ * Base class for database tables that track the creation and last update timestamps of records.
  */
 public abstract class TimestampedTable(name: String) : Table(name = name) {
 

@@ -66,7 +66,7 @@ internal class EmploymentRepository(
             check(employeeExists) { "Employee with ID: $employeeId does not exist" }
 
             val employmentId: Uuid = EmploymentTable.insert { statement ->
-                statement.toStatement(employeeId = employeeId, request = request)
+                statement.toInsertStatement(employeeId = employeeId, request = request)
             }[EmploymentTable.id]
 
             return@transaction findById(
@@ -85,7 +85,7 @@ internal class EmploymentRepository(
                     (EmploymentTable.employeeId eq employeeId) and (EmploymentTable.id eq employmentId)
                 }
             ) { statement ->
-                statement.toStatement(employeeId = employeeId, request = request)
+                statement.toUpdateStatement(employeeId = employeeId, request = request)
             }
 
             if (updatedRows > 0) {
@@ -123,10 +123,10 @@ internal class EmploymentRepository(
     }
 
     /**
-     * Populates an SQL [UpdateBuilder] with data from an [EmploymentRequest] instance,
-     * so that it can be used to update or create a database record.
+     * Populates an SQL [UpdateBuilder] with data from a [EmploymentRequest] instance,
+     * without assigning the `createdBy` field. This is suitable for updates.
      */
-    private fun UpdateBuilder<Int>.toStatement(employeeId: Uuid, request: EmploymentRequest) {
+    private fun UpdateBuilder<Int>.toUpdateStatement(employeeId: Uuid, request: EmploymentRequest) {
         this[EmploymentTable.employeeId] = employeeId
         this[EmploymentTable.status] = request.status
         this[EmploymentTable.probationEndDate] = request.probationEndDate
@@ -136,5 +136,15 @@ internal class EmploymentRepository(
         this[EmploymentTable.startDate] = request.period.startDate
         this[EmploymentTable.endDate] = request.period.endDate
         this[EmploymentTable.comments] = request.period.comments?.trim()
+        this[EmploymentTable.modifiedBy] = sessionContext.actorId
+    }
+
+    /**
+     * Populates an SQL [UpdateBuilder] with data from a [EmploymentRequest] instance,
+     * including the `createdBy` field. This is suitable for inserts.
+     */
+    private fun UpdateBuilder<Int>.toInsertStatement(employeeId: Uuid, request: EmploymentRequest) {
+        toUpdateStatement(employeeId = employeeId, request = request)
+        this[EmploymentTable.createdBy] = sessionContext.actorId
     }
 }
