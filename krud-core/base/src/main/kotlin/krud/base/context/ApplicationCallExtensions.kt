@@ -8,9 +8,9 @@ import io.ktor.server.application.*
 import io.ktor.server.sessions.*
 import io.ktor.util.*
 import krud.base.error.UnauthorizedException
-import krud.base.plugins.Uuid
 import krud.base.settings.AppSettings
 import krud.base.util.toUuid
+import kotlin.uuid.Uuid
 
 /**
  * Extension function to add the given [sessionContext] into the [ApplicationCall] attributes,

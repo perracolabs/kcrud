@@ -7,7 +7,6 @@ package krud.domain.employee.model
 import io.perracodex.exposed.pagination.MapModel
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
-import krud.base.plugins.Uuid
 import krud.base.util.DateTimeUtils.age
 import krud.database.model.Meta
 import krud.database.schema.contact.ContactTable
@@ -18,6 +17,7 @@ import krud.database.schema.employment.EmploymentTable
 import krud.domain.contact.model.Contact
 import krud.domain.employment.model.Employment
 import org.jetbrains.exposed.sql.ResultRow
+import kotlin.uuid.Uuid
 
 /**
  * Represents a concrete employee.

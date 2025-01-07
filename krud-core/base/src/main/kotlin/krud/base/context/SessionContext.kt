@@ -4,8 +4,8 @@
 
 package krud.base.context
 
-import krud.base.plugins.Uuid
 import org.jetbrains.exposed.sql.Database
+import kotlin.uuid.Uuid
 
 /**
  * Data class holding concrete [SessionContext] information passed around in the application

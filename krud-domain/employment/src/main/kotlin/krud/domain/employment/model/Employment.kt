@@ -7,13 +7,13 @@ package krud.domain.employment.model
 import io.perracodex.exposed.pagination.MapModel
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
-import krud.base.plugins.Uuid
 import krud.database.model.Meta
 import krud.database.model.Period
 import krud.database.schema.employment.EmploymentTable
 import krud.database.schema.employment.type.EmploymentStatus
 import krud.database.schema.employment.type.WorkModality
 import org.jetbrains.exposed.sql.ResultRow
+import kotlin.uuid.Uuid
 
 /**
  * Represents a concrete employment.

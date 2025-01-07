@@ -4,7 +4,7 @@
 
 package krud.access.domain.actor.model
 
-import krud.base.plugins.Uuid
+import kotlin.uuid.Uuid
 
 /**
  * Request to create/update an Actor.

@@ -22,11 +22,11 @@ import krud.access.plugins.configureJwtAuthentication
 import krud.access.plugins.configureOAuthAuthentication
 import krud.base.context.SessionContext
 import krud.base.env.Tracer
-import krud.base.plugins.Uuid
 import krud.base.settings.AppSettings
 import krud.base.util.toUuid
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import kotlin.uuid.Uuid
 
 /**
  * Provides factory methods for constructing [SessionContext] instances from various authentication credential flows.

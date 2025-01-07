@@ -7,10 +7,10 @@ package krud.access.plugins
 import io.ktor.server.application.*
 import io.ktor.server.sessions.*
 import krud.base.context.SessionContext
-import krud.base.plugins.Uuid
 import krud.base.security.util.EncryptionUtils.toByteKey
 import krud.base.settings.AppSettings
 import krud.base.settings.catalog.section.security.node.EncryptionSettings
+import kotlin.uuid.Uuid
 
 /**
  * Configure the [Sessions] plugin.

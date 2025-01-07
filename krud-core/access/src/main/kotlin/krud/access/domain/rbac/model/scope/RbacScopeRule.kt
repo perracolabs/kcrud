@@ -7,12 +7,12 @@ package krud.access.domain.rbac.model.scope
 import kotlinx.serialization.Serializable
 import krud.access.domain.rbac.model.field.RbacFieldRule
 import krud.access.domain.rbac.model.role.RbacRole
-import krud.base.plugins.Uuid
 import krud.database.model.Meta
 import krud.database.schema.admin.rbac.RbacScopeRuleTable
 import krud.database.schema.admin.rbac.type.RbacAccessLevel
 import krud.database.schema.admin.rbac.type.RbacScope
 import org.jetbrains.exposed.sql.ResultRow
+import kotlin.uuid.Uuid
 
 /**
  * Represents a concrete RBAC scope rule for a concrete [RbacRole].

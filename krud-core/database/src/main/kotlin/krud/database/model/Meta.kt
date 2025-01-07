@@ -7,10 +7,10 @@ package krud.database.model
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toKotlinInstant
 import kotlinx.serialization.Serializable
-import krud.base.plugins.Uuid
 import krud.database.schema.base.BaseTable
 import krud.database.schema.base.TimestampedTable
 import org.jetbrains.exposed.sql.ResultRow
+import kotlin.uuid.Uuid
 
 /**
  * Represents the metadata of a record.

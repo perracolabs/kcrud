@@ -7,10 +7,7 @@ package krud.base.plugins
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.contentnegotiation.*
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-import krud.base.serializer.UuidSerializer
-import kotlin.uuid.Uuid
 
 /**
  * The [ContentNegotiation] plugin serves two primary purposes:
@@ -39,8 +36,3 @@ public fun Application.configureSerialization() {
         )
     }
 }
-
-/**
- * Type alias for [Uuid] to be used in serialization.
- */
-public typealias Uuid = @Serializable(with = UuidSerializer::class) Uuid

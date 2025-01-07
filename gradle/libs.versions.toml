@@ -2,13 +2,13 @@
 
 [versions]
 
-commons-codec = "1.17.1"
+commons-codec = "1.17.2"
 database-h2 = "2.3.232"
 detekt = "1.23.7"
 dokka = "2.0.0"
 exposed = "0.57.0"
 exposed-pagination = "1.0.8"
-flyway = "11.1.0"
+flyway = "11.1.1"
 google-phonenumber = "8.13.52"
 hikariCP = "6.2.1"
 koin = "4.0.1"
@@ -17,7 +17,7 @@ kotlin = "2.1.0"
 kotlinx-atomicfu = "0.26.1"
 kotlinx-coroutines = "1.10.1"
 kotlinx-datetime = "0.6.1"
-kotlinx-serialization = "1.7.3"
+kotlinx-serialization = "1.8.0"
 ktor = "3.0.3"
 ktor-config = "1.0.3"
 logback = "1.5.16"
@@ -133,6 +133,7 @@ kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 
 # Serialization (Ktor).
+# https://github.com/Kotlin/kotlinx.serialization/releases
 # https://github.com/Kotlin/kotlinx.serialization
 # https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/serialization-guide.md
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
