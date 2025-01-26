@@ -34,8 +34,8 @@ public var ApplicationCall.sessionContext: SessionContext
     get() = sessionContextOrNull
         ?: throw UnauthorizedException("Session context not found.")
     set(value) {
-        this.attributes.put(SessionContextUtils.sessionContextKey, value)
-        this.sessions.set(SessionContext.SESSION_NAME, value.actorId)
+        this.attributes.put(key = SessionContextUtils.sessionContextKey, value = value)
+        this.sessions.set(name = SessionContext.SESSION_NAME, value = value.actorId)
     }
 
 /**
