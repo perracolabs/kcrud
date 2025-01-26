@@ -13,7 +13,10 @@ import kotlin.uuid.Uuid
  * @return The [Uuid] representation of the string, or null if the string is null or is not a valid [Uuid].
  */
 public fun String?.toUuidOrNull(): Uuid? {
-    if (this.isNullOrBlank()) return null
+    if (this.isNullOrBlank()) {
+        return null
+    }
+
     return runCatching {
         Uuid.parse(uuidString = this)
     }.onFailure { e ->
@@ -28,7 +31,8 @@ public fun String?.toUuidOrNull(): Uuid? {
  * @throws IllegalArgumentException if the string is not a valid [Uuid].
  */
 public fun String?.toUuid(): Uuid {
-    requireNotNull(this) { "Uuid string cannot be null." }
+    requireNotNull(value = this) { "Uuid string cannot be null." }
+
     return try {
         Uuid.parse(uuidString = this)
     } catch (e: IllegalArgumentException) {
