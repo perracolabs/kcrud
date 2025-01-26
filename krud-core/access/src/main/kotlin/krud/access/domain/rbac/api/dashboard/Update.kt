@@ -16,8 +16,8 @@ import krud.access.domain.rbac.service.RbacDashboardManager
 import krud.access.domain.rbac.view.RbacDashboardView
 import krud.access.domain.rbac.view.RbacLoginView
 import krud.base.context.SessionContext
-import krud.base.context.clearContext
-import krud.base.context.getContext
+import krud.base.context.clearSessionContext
+import krud.base.context.sessionContext
 import krud.base.util.toUuid
 import kotlin.uuid.Uuid
 
@@ -29,9 +29,9 @@ import kotlin.uuid.Uuid
 internal fun Route.rbacDashboardUpdateRoute() {
     post("/rbac/dashboard") {
         // Retrieve SessionContext or redirect to the login screen if it's missing.
-        val sessionContext: SessionContext = call.getContext()
+        val sessionContext: SessionContext = call.sessionContext
         if (!RbacDashboardManager.hasPermission(sessionContext = sessionContext)) {
-            call.clearContext()
+            call.clearSessionContext()
             call.respondRedirect(url = RbacLoginView.RBAC_LOGIN_PATH)
             return@post
         }
@@ -59,7 +59,7 @@ internal fun Route.rbacDashboardUpdateRoute() {
 
                 // If the update was unauthorized, clear the session and redirect to the login screen.
                 is RbacDashboardManager.UpdateResult.Unauthorized -> call.run {
-                    call.clearContext()
+                    call.clearSessionContext()
                     respondRedirect(url = RbacLoginView.RBAC_LOGIN_PATH)
                 }
             }

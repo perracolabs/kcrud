@@ -10,7 +10,7 @@ import io.ktor.http.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.util.*
-import krud.base.context.getContext
+import krud.base.context.sessionContext
 import krud.base.util.toUuid
 import krud.domain.employment.api.EmploymentRouteApi
 import krud.domain.employment.service.EmploymentService
@@ -22,7 +22,7 @@ import kotlin.uuid.Uuid
 internal fun Route.deleteEmploymentByEmployeeIdRoute() {
     delete("/api/v1/employees/{employee_id}/employments") {
         val employeeId: Uuid = call.parameters.getOrFail(name = "employee_id").toUuid()
-        val service: EmploymentService = call.scope.get<EmploymentService> { parametersOf(call.getContext()) }
+        val service: EmploymentService = call.scope.get<EmploymentService> { parametersOf(call.sessionContext) }
         val deletedCount: Int = service.deleteAll(employeeId = employeeId)
         call.respond(status = HttpStatusCode.OK, message = deletedCount)
     } api {

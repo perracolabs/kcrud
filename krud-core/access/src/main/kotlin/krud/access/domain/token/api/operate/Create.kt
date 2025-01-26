@@ -12,8 +12,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import krud.access.domain.token.annotation.TokenApi
 import krud.access.domain.token.service.TokenService
-import krud.base.context.SessionContext
-import krud.base.context.getContext
+import krud.base.context.sessionContext
 import krud.base.plugins.RateLimitScope
 import krud.base.settings.AppSettings
 
@@ -30,9 +29,7 @@ internal fun Route.createTokenRoute() {
     rateLimit(configuration = RateLimitName(name = RateLimitScope.NEW_AUTH_TOKEN.key)) {
         authenticate(AppSettings.security.basicAuth.providerName, optional = !AppSettings.security.isEnabled) {
             post("/auth/token/create") {
-                val sessionContext: SessionContext = call.getContext()
-
-                TokenService.createToken(sessionContext = sessionContext).let { response ->
+                TokenService.createToken(sessionContext = call.sessionContext).let { response ->
                     call.respondText(
                         text = response.message,
                         status = response.statusCode,

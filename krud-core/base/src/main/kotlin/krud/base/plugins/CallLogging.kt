@@ -10,8 +10,7 @@ import io.ktor.server.plugins.*
 import io.ktor.server.plugins.callid.*
 import io.ktor.server.plugins.calllogging.*
 import io.ktor.server.request.*
-import krud.base.context.SessionContext
-import krud.base.context.getContextOrNull
+import krud.base.context.sessionContextOrNull
 import krud.base.security.snowflake.SnowflakeFactory
 import krud.base.settings.AppSettings
 import org.slf4j.event.Level
@@ -44,12 +43,11 @@ public fun Application.configureCallLogging() {
 
         // Format the log message to include the call ID, SessionContext details, and processing time.
         format { call ->
-            val sessionContext: SessionContext? = call.getContextOrNull()
             val callDurationMs: Long = call.processingTimeMillis()
 
             "Call Metric: [${call.request.origin.remoteHost}] " +
                     "${call.request.httpMethod.value} - ${call.request.path()} " +
-                    "- by '$sessionContext' - ${callDurationMs}ms"
+                    "- by '${call.sessionContextOrNull}' - ${callDurationMs}ms"
         }
     }
 

@@ -9,7 +9,7 @@ import io.ktor.http.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import krud.base.context.getContext
+import krud.base.context.sessionContext
 import krud.domain.employee.api.EmployeeRouteApi
 import krud.domain.employee.model.Employee
 import krud.domain.employee.model.EmployeeRequest
@@ -21,7 +21,7 @@ import org.koin.ktor.plugin.scope
 internal fun Route.createEmployeeRoute() {
     post("/api/v1/employees") {
         val request: EmployeeRequest = call.receive<EmployeeRequest>()
-        val service: EmployeeService = call.scope.get<EmployeeService> { parametersOf(call.getContext()) }
+        val service: EmployeeService = call.scope.get<EmployeeService> { parametersOf(call.sessionContext) }
         val employee: Employee = service.create(request = request).getOrThrow()
         call.respond(status = HttpStatusCode.Created, message = employee)
     } api {

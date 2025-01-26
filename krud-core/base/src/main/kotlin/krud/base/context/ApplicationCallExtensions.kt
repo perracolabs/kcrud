@@ -13,65 +13,56 @@ import krud.base.util.toUuid
 import kotlin.uuid.Uuid
 
 /**
- * Extension function to add the given [sessionContext] into the [ApplicationCall] attributes,
+ * Extension property for getting or setting the current [SessionContext] in an [ApplicationCall],
  * in addition to setting it also in the [Sessions] property to persist between different HTTP requests.
  *
- * @param sessionContext The [SessionContext] to be added.
- * @return The [SessionContext] that was set. Returned to allow for chaining.
- *
- * @see [getContext]
- * @see [getContextOrNull]
- */
-public fun ApplicationCall.setContext(sessionContext: SessionContext): SessionContext {
-    this.attributes.put(key = SessionContextUtils.sessionContextKey, value = sessionContext)
-    this.sessions.set(name = SessionContext.SESSION_NAME, value = sessionContext.actorId)
-    return sessionContext
-}
-
-/**
- * Extension function to retrieve the [SessionContext] from the [ApplicationCall] attributes,
- * enforcing a secure and standardized retrieval process.
  * The [SessionContext] is typically set by authentication plugins following successful authorizations.
  *
  * Prefer this method over `call.principal<SessionContext>()` to ensure consistent handling
  * of security and session validation.
  *
- * **Retrieval Flow:**
- * 1. Checks for [SessionContext] in the current [ApplicationCall] attributes.
- * 2. Returns it if found; otherwise, it handles the absence based on security settings:
- *    - Throws [UnauthorizedException] if security is enabled.
- *    - Returns a default [SessionContext] with predefined 'empty' values if security is disabled.
+ * - **Getter**: Returns the stored [SessionContext]. If none is set and security is enabled, it throws
+ *   [UnauthorizedException]. If security its disabled, a default "empty" [SessionContext] is returned.
+ * - **Setter**: Writes the given [SessionContext] into the [ApplicationCall] attributes and the [Sessions] store,
+ *   allowing it to persist across multiple HTTP requests.
  *
- * @return The [SessionContext] if present, or a default one if security is disabled.
- * @throws UnauthorizedException If security is enabled but [SessionContext] is absent.
- *
- * @see [setContext]
- * @see [getContextOrNull]
+ * @throws UnauthorizedException If security is enabled and no [SessionContext] is present on get.
+ * @see [sessionContextOrNull]
+ * @see [clearSessionContext]
  */
-public fun ApplicationCall.getContext(): SessionContext {
-    return getContextOrNull() ?: throw UnauthorizedException("Session context not found.")
-}
+public var ApplicationCall.sessionContext: SessionContext
+    get() = sessionContextOrNull
+        ?: throw UnauthorizedException("Session context not found.")
+    set(value) {
+        this.attributes.put(SessionContextUtils.sessionContextKey, value)
+        this.sessions.set(SessionContext.SESSION_NAME, value.actorId)
+    }
 
 /**
- * Extension function to retrieve the [SessionContext] from the [ApplicationCall] attributes,
- * enforcing a secure and standardized retrieval process.
+ * Extension property for *optionally* retrieving the current [SessionContext] from the [ApplicationCall].
+ *
+ * - Returns `null` if no session context is found **and security is enabled**.
+ * - Returns a default "empty" [SessionContext] if security is disabled and none is found.
+ * - If a valid [SessionContext] is stored, returns it directly.
+ *
  * The [SessionContext] is typically set by authentication plugins following successful authorizations.
  *
- * @return A [SessionContext] representing the authenticated actor;
- * `null` if unauthorized; or a default empty [SessionContext] when security is disabled.
+ * This is useful when must handle missing sessions gracefully (e.g., optional authentication scenarios).
  *
- * @see [setContext]
- * @see [getContext]
+ * @see [sessionContext]
+ * @see [clearSessionContext]
  */
-public fun ApplicationCall.getContextOrNull(): SessionContext? {
-    return this.attributes.getOrNull(key = SessionContextUtils.sessionContextKey)
+public val ApplicationCall.sessionContextOrNull: SessionContext?
+    get() = this.attributes.getOrNull(key = SessionContextUtils.sessionContextKey)
         ?: SessionContextUtils.emptySessionContext.takeIf { AppSettings.security.isEnabled == false }
-}
 
 /**
  * Extension function to clear the [SessionContext] from the [ApplicationCall] attributes and [Sessions].
+ *
+ * @see [sessionContext]
+ * @see [sessionContextOrNull]
  */
-public fun ApplicationCall.clearContext() {
+public fun ApplicationCall.clearSessionContext() {
     this.attributes.remove(key = SessionContextUtils.sessionContextKey)
     this.sessions.clear(name = SessionContext.SESSION_NAME)
 }

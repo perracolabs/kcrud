@@ -14,8 +14,8 @@ import krud.access.domain.rbac.service.RbacDashboardManager
 import krud.access.domain.rbac.view.RbacDashboardView
 import krud.access.domain.rbac.view.RbacLoginView
 import krud.base.context.SessionContext
-import krud.base.context.clearContext
-import krud.base.context.getContext
+import krud.base.context.clearSessionContext
+import krud.base.context.sessionContext
 import krud.base.util.toUuidOrNull
 
 /**
@@ -27,9 +27,9 @@ import krud.base.util.toUuidOrNull
 internal fun Route.rbacDashboardLoadRoute() {
     get("/rbac/dashboard") {
         // Attempt to retrieve the SessionContext for RBAC dashboard access. Redirect to the login screen if null.
-        val sessionContext: SessionContext = call.getContext()
+        val sessionContext: SessionContext = call.sessionContext
         if (!RbacDashboardManager.hasPermission(sessionContext = sessionContext)) {
-            call.clearContext()
+            call.clearSessionContext()
             call.respondRedirect(url = RbacLoginView.RBAC_LOGIN_PATH)
             return@get
         }

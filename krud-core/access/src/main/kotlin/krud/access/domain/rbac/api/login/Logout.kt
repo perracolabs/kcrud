@@ -10,7 +10,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import krud.access.domain.rbac.annotation.RbacApi
 import krud.access.domain.rbac.view.RbacLoginView
-import krud.base.context.clearContext
+import krud.base.context.clearSessionContext
 
 /**
  * Manages the session termination and redirection to the login page.
@@ -19,7 +19,7 @@ import krud.base.context.clearContext
 @RbacApi
 internal fun Route.rbacLogoutRoute() {
     post("/rbac/logout") {
-        call.clearContext()
+        call.clearSessionContext()
         call.respondRedirect(url = RbacLoginView.RBAC_LOGIN_PATH)
     } api {
         tags = setOf("RBAC")

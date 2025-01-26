@@ -10,7 +10,7 @@ import io.ktor.http.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.util.*
-import krud.base.context.getContext
+import krud.base.context.sessionContext
 import krud.base.error.AppException
 import krud.base.util.toUuid
 import krud.domain.employment.api.EmploymentRouteApi
@@ -27,7 +27,7 @@ internal fun Route.findEmploymentByIdRoute() {
         val employmentId: Uuid = call.parameters.getOrFail(name = "employment_id").toUuid()
         val employeeId: Uuid = call.parameters.getOrFail(name = "employee_id").toUuid()
 
-        val service: EmploymentService = call.scope.get<EmploymentService> { parametersOf(call.getContext()) }
+        val service: EmploymentService = call.scope.get<EmploymentService> { parametersOf(call.sessionContext) }
         val employment: Employment = service.findById(
             employeeId = employeeId,
             employmentId = employmentId

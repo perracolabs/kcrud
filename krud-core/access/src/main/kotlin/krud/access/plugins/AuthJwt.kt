@@ -13,8 +13,8 @@ import io.ktor.server.auth.jwt.*
 import io.ktor.server.response.*
 import krud.access.context.SessionContextFactory
 import krud.access.domain.token.annotation.TokenApi
-import krud.base.context.clearContext
-import krud.base.context.setContext
+import krud.base.context.clearSessionContext
+import krud.base.context.sessionContext
 import krud.base.env.Tracer
 import krud.base.settings.AppSettings
 
@@ -57,10 +57,11 @@ public fun Application.configureJwtAuthentication() {
                     headers = this.request.headers,
                     jwtCredential = credential
                 )?.let { sessionContext ->
-                    return@validate this.setContext(sessionContext = sessionContext)
+                    this.sessionContext = sessionContext
+                    return@validate sessionContext
                 }
 
-                this.clearContext()
+                this.clearSessionContext()
                 return@validate null
             }
 
@@ -68,7 +69,7 @@ public fun Application.configureJwtAuthentication() {
                 Tracer(ref = Application::configureJwtAuthentication).error(
                     "JWT authentication failed. Default scheme: $defaultScheme, realm: $realm"
                 )
-                call.clearContext()
+                call.clearSessionContext()
                 call.respond(status = HttpStatusCode.Unauthorized, message = "Token is not valid or has expired.")
             }
         }

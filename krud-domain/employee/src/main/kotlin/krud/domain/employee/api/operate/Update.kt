@@ -11,7 +11,7 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.util.*
-import krud.base.context.getContext
+import krud.base.context.sessionContext
 import krud.base.error.AppException
 import krud.base.util.toUuid
 import krud.domain.employee.api.EmployeeRouteApi
@@ -29,7 +29,7 @@ internal fun Route.updateEmployeeByIdRoute() {
         val employeeId: Uuid = call.parameters.getOrFail(name = "employee_id").toUuid()
         val request: EmployeeRequest = call.receive<EmployeeRequest>()
 
-        val service: EmployeeService = call.scope.get<EmployeeService> { parametersOf(call.getContext()) }
+        val service: EmployeeService = call.scope.get<EmployeeService> { parametersOf(call.sessionContext) }
         val updatedEmployee: Employee? = service.update(
             employeeId = employeeId,
             request = request

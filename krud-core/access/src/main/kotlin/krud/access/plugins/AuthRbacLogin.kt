@@ -11,8 +11,8 @@ import io.ktor.server.sessions.*
 import krud.access.context.SessionContextFactory
 import krud.access.domain.rbac.annotation.RbacApi
 import krud.access.domain.rbac.view.RbacLoginView
-import krud.base.context.clearContext
-import krud.base.context.setContext
+import krud.base.context.clearSessionContext
+import krud.base.context.sessionContext
 
 /**
  * Refreshes the default actors, and configures the RBAC form login authentication.
@@ -34,16 +34,17 @@ public fun Application.configureRbac() {
             passwordParamName = RbacLoginView.KEY_PASSWORD
 
             challenge {
-                call.clearContext()
+                call.clearSessionContext()
                 call.respondRedirect(url = RbacLoginView.RBAC_LOGIN_PATH)
             }
 
             validate { credential ->
                 SessionContextFactory.from(credential = credential)?.let { sessionContext ->
-                    return@validate this.setContext(sessionContext = sessionContext)
+                    this.sessionContext = sessionContext
+                    return@validate sessionContext
                 }
 
-                this.clearContext()
+                this.clearSessionContext()
                 return@validate null
             }
         }

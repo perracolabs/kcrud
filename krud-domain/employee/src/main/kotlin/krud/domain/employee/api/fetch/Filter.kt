@@ -11,7 +11,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.perracodex.exposed.pagination.Page
 import io.perracodex.exposed.pagination.getPageable
-import krud.base.context.getContext
+import krud.base.context.sessionContext
 import krud.domain.employee.api.EmployeeRouteApi
 import krud.domain.employee.model.Employee
 import krud.domain.employee.model.EmployeeFilterSet
@@ -23,7 +23,7 @@ import org.koin.ktor.plugin.scope
 internal fun Route.filterEmployeeRoute() {
     post("/api/v1/employees/filter") {
         val request: EmployeeFilterSet = call.receive<EmployeeFilterSet>()
-        val service: EmployeeService = call.scope.get<EmployeeService> { parametersOf(call.getContext()) }
+        val service: EmployeeService = call.scope.get<EmployeeService> { parametersOf(call.sessionContext) }
         val employees: Page<Employee> = service.filter(filterSet = request, pageable = call.getPageable())
         call.respond(status = HttpStatusCode.OK, message = employees)
     } api {

@@ -13,8 +13,8 @@ import krud.access.context.SessionContextFactory
 import krud.access.domain.rbac.annotation.RbacApi
 import krud.access.domain.rbac.service.RbacService
 import krud.base.context.SessionContext
-import krud.base.context.getContextOrNull
-import krud.base.context.setContext
+import krud.base.context.sessionContext
+import krud.base.context.sessionContextOrNull
 import krud.database.schema.admin.rbac.type.RbacAccessLevel
 import krud.database.schema.admin.rbac.type.RbacScope
 import org.koin.ktor.ext.inject
@@ -36,9 +36,10 @@ internal val RbacPlugin: RouteScopedPlugin<RbacPluginConfig> = createRouteScoped
         // the SessionContext is typically derived directly from the token, populating the call pipeline automatically.
         // In contrast, form-based authentication does not inherently carry the SessionContext across requests,
         // so it must be manually set in the call pipeline from the persistence provided by the Sessions plugin.
-        val sessionContext: SessionContext? = call.getContextOrNull()
+        val sessionContext: SessionContext? = call.sessionContextOrNull
             ?: SessionContextFactory.from(sessions = call.sessions)?.let { sessionContext ->
-                call.setContext(sessionContext = sessionContext)
+                call.sessionContext = sessionContext
+                sessionContext
             }
 
         sessionContext?.let {

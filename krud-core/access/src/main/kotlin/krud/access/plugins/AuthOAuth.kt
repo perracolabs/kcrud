@@ -12,8 +12,8 @@ import io.ktor.server.auth.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import krud.access.context.SessionContextFactory
-import krud.base.context.clearContext
-import krud.base.context.setContext
+import krud.base.context.clearSessionContext
+import krud.base.context.sessionContext
 import krud.base.settings.AppSettings
 
 /**
@@ -60,13 +60,13 @@ public fun Application.configureOAuthAuthentication() {
 
                 call.principal<OAuthAccessTokenResponse.OAuth2>()?.let { principal ->
                     SessionContextFactory.from(oauth2 = principal)?.let { sessionContext ->
-                        call.setContext(sessionContext = sessionContext)
+                        call.sessionContext = sessionContext
                         call.respondText(text = "You are now logged in through OAuth.")
                         return@get
                     }
                 }
 
-                call.clearContext()
+                call.clearSessionContext()
                 call.respond(message = HttpStatusCode.Unauthorized)
             }
         }

@@ -11,7 +11,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.util.*
 import krud.base.context.SessionContext
-import krud.base.context.getContext
+import krud.base.context.sessionContext
 import krud.domain.employee.service.EmployeeService
 import krud.domain.employment.service.EmploymentService
 import krud.server.demo.DemoApi
@@ -28,7 +28,7 @@ internal fun Route.createRecordsRoute() {
         val count: Int = call.request.queryParameters.getOrFail<Int>(name = "count")
 
         if (count in 1..maxAllowedBatch) {
-            val sessionContext: SessionContext = call.getContext()
+            val sessionContext: SessionContext = call.sessionContext
             val employeeService: EmployeeService = call.scope.get<EmployeeService> { parametersOf(sessionContext) }
             val employmentService: EmploymentService = call.scope.get<EmploymentService> { parametersOf(sessionContext) }
 

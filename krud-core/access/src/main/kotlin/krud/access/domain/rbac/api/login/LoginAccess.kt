@@ -11,7 +11,7 @@ import io.ktor.server.routing.*
 import krud.access.domain.rbac.annotation.RbacApi
 import krud.access.domain.rbac.view.RbacLoginView
 import krud.base.context.SessionContext
-import krud.base.context.clearContext
+import krud.base.context.clearSessionContext
 
 /**
  * Manages access to the RBAC login page. If a valid [SessionContext] is already exists, the actor
@@ -21,7 +21,7 @@ import krud.base.context.clearContext
 @RbacApi
 internal fun Route.rbacLoginAccessRoute() {
     get("/rbac/login") {
-        call.clearContext()
+        call.clearSessionContext()
         call.respondHtml(status = HttpStatusCode.OK) {
             RbacLoginView.build(html = this)
         }

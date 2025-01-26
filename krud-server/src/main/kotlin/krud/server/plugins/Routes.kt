@@ -13,7 +13,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import krud.access.domain.rbac.api.rbacRoutes
 import krud.access.domain.token.api.accessTokenRoutes
-import krud.base.context.getContextOrNull
+import krud.base.context.sessionContextOrNull
 import krud.base.event.sseRoutes
 import krud.base.plugins.RateLimitScope
 import krud.base.security.snowflake.snowflakeRoute
@@ -61,7 +61,7 @@ internal fun Application.configureRoutes() {
 
         // Server root endpoint.
         get("/") {
-            val greeting: String = call.getContextOrNull()?.let { sessionContext ->
+            val greeting: String = call.sessionContextOrNull?.let { sessionContext ->
                 "Hello World. Welcome ${sessionContext.username}!"
             } ?: "Hello World."
             call.respondText(text = greeting)

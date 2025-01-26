@@ -10,7 +10,7 @@ import io.ktor.http.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.util.*
-import krud.base.context.getContext
+import krud.base.context.sessionContext
 import krud.base.error.AppException
 import krud.base.util.toUuid
 import krud.domain.employee.api.EmployeeRouteApi
@@ -25,7 +25,7 @@ import kotlin.uuid.Uuid
 internal fun Route.findEmployeeByIdRoute() {
     get("/api/v1/employees/{employee_id}") {
         val employeeId: Uuid = call.parameters.getOrFail(name = "employee_id").toUuid()
-        val service: EmployeeService = call.scope.get<EmployeeService> { parametersOf(call.getContext()) }
+        val service: EmployeeService = call.scope.get<EmployeeService> { parametersOf(call.sessionContext) }
         val employee: Employee = service.findById(employeeId = employeeId)
             ?: throw EmployeeError.EmployeeNotFound(employeeId = employeeId)
         call.respond(status = HttpStatusCode.OK, message = employee)

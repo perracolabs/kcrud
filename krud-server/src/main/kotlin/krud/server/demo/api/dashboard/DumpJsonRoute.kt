@@ -10,7 +10,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.perracodex.exposed.pagination.Page
 import io.perracodex.exposed.pagination.getPageable
-import krud.base.context.getContext
+import krud.base.context.sessionContext
 import krud.domain.employee.model.Employee
 import krud.domain.employee.service.EmployeeService
 import krud.server.demo.DemoApi
@@ -20,7 +20,7 @@ import org.koin.ktor.plugin.scope
 @DemoApi
 internal fun Route.dumpJsonRoute() {
     get("/demo/json") {
-        val service: EmployeeService = call.scope.get<EmployeeService> { parametersOf(call.getContext()) }
+        val service: EmployeeService = call.scope.get<EmployeeService> { parametersOf(call.sessionContext) }
         val page: Page<Employee> = service.findAll(pageable = call.getPageable())
         call.respond(status = HttpStatusCode.OK, message = page)
     } api {

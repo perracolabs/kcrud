@@ -7,8 +7,8 @@ package krud.access.plugins
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import krud.access.context.SessionContextFactory
-import krud.base.context.clearContext
-import krud.base.context.setContext
+import krud.base.context.clearSessionContext
+import krud.base.context.sessionContext
 import krud.base.settings.AppSettings
 
 /**
@@ -28,10 +28,11 @@ public fun Application.configureBasicAuthentication() {
 
             validate { credential ->
                 SessionContextFactory.from(credential = credential)?.let { sessionContext ->
-                    return@validate this.setContext(sessionContext = sessionContext)
+                    this.sessionContext = sessionContext
+                    return@validate sessionContext
                 }
 
-                this.clearContext()
+                this.clearSessionContext()
                 return@validate null
             }
         }

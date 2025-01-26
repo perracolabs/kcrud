@@ -8,7 +8,7 @@ import io.github.perracodex.kopapi.dsl.operation.api
 import io.ktor.http.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import krud.base.context.getContext
+import krud.base.context.sessionContext
 import krud.domain.employee.service.EmployeeService
 import krud.server.demo.DemoApi
 import org.koin.core.parameter.parametersOf
@@ -17,7 +17,7 @@ import org.koin.ktor.plugin.scope
 @DemoApi
 internal fun Route.deleteRecordsRoute() {
     delete("/demo") {
-        val service: EmployeeService = call.scope.get<EmployeeService> { parametersOf(call.getContext()) }
+        val service: EmployeeService = call.scope.get<EmployeeService> { parametersOf(call.sessionContext) }
         val count: Int = service.deleteAll()
         call.respond(status = HttpStatusCode.OK, message = "All employees deleted. Total: $count.")
     } api {
