@@ -2,14 +2,14 @@
 
 [versions]
 
-commons-codec = "1.17.2"
+commons-codec = "1.18.0"
 database-h2 = "2.3.232"
 detekt = "1.23.7"
 dokka = "2.0.0"
-exposed = "0.58.0"
+exposed = "0.59.0"
 exposed-pagination = "1.0.9"
-flyway = "11.2.0"
-google-phonenumber = "8.13.53"
+flyway = "11.3.1"
+google-phonenumber = "8.13.54"
 hikariCP = "6.2.1"
 koin = "4.0.2"
 kopapi = "1.0.10"
